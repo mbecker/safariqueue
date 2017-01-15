@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "safaridigitalapp",
+  "private_key_id": "ae0e74f0624f9420de0b0b61b588489bcfe7a208",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCoWQcaMsdoyhlT\n4Q5+GX3cHjIVWRBDqfpfs3vsRvDxw1wvWNfKgiXUlG4FVaiwA5Ka2bKnjeZEN+40\nUcqyjynuc8pOdEBgvs5cJQ5tcOqFe40T8X46UTKdUieceL+FA71TdSDoDeZxZaIO\nkvmBJPYnIYEEtTxXHfBZAcWTOKkxaEA8+1jPYDUGG6SoeqMopgVwF3SxcVNm58a+\naqRtn7n1X3HVY8zRbsqK7RIEs0GF7FGNQH/7mtrqjQamBeatA4giGS1pYUym9j6Q\nkIk6AbCuuFjTRnz+JSSrwIjh5HZp5ecBokEjIKuA21itZWJJ7tPCbPy0SoTs95K1\nd/GYVpfdAgMBAAECggEAMQEBTUH8w+cYak83zcMT3PA5OfecAWZISHVRnFymJGnu\nuqWM4xjxdCjkwc7GdL4Ffefi1l066x6wyzAH5eRAm3W/LQkv+DlyjmYHBhp5WfO2\nBFkmmkkqh5rzhturPEfzY4jT1Fi/fMDN5Jop4MrmkEtzZ/BtqRpA7VfTsGAs+AFc\n15iysms9rdWGWGaZxPHUtLzPl2FUVVy1TWr248BYaOanxCer7vTlyciCnglFkiUV\nJNhJLTV0H0JntQAUzYsDKCBRMGeBru694us/8HtPr3MmOlJebL+C6x5uiqWXgnfx\nrUR5iSyJhDOyBJOEV680i82hTHCToAimN9oE+9nrAQKBgQDTp81WGtLDQpO7VwAC\n6D5N8cveEMqxLHseK1DlStMUyM354wbEllkGRJdALwV2drpoCx3UAhkiwgaHtRJv\n2ctxFWa81BCTQxg338WfJBdh7wj+4i9YbP5WovmMsqUl8vux00LbeQbjs0VVJELY\nEq2/HBfK7mBi8t33pN+L0n0uQQKBgQDLnmerW4Qrm09+h0qHZ7c0N9ZFvzG99OYD\ng/kzYLMQ3FVXU7N91EFURKPxA4i7/0+oqtEmNFQW3LZxh6cSGtcjvg22sH5V0CDl\nnde+wh8tax5mfvOEm3w8j4QKb08sf/5f/9GttDfG2pKyQFdpvQmMarjN9ZvDXNlW\nWe24PHa6nQKBgExm0TdYvWXgnYVNlWJ3RS5LryS8+P3VqaetSSlLxkBFcBzY97N0\n9jPOBK8ViipGF2nBQYYrL7mdQlAwa7RWcRqj+A8HmegemxpoO2UD2TDv4VZofWC1\nD2ZktCI2xmiZeoOpWAPzfyoop0lhqoNm0rMex/Pn8oElXDytlkhZtfhBAoGBAJxC\nhiB07OtiFxFs1f8v0uKZ7zA7V/sFE/eisf2Buim4TS3lKBvqZfA7dOyi364WcpVn\n8XW2NsoMu15I0igMvQnK8k8/BtToEjbkeQsFglOinwPdbRhZEnCPWq9/WG04FIir\nk8gQQ7WxS17MDckxr0A5LnWwhMbaXFfuT4ZRsHPpAoGAHrNZIKqyZPtsOD1+dPYN\n3ukTKLxvgD/WBWnpRpGGHOVrfx96Dg4jX9ce0wJADKIstLY9f/VE4VlYq70Wiy/w\nCeGxuHzstE6iXg9DE7pmiJhRwR7D/nplFAzzPPUyFW2yyac6qC+Pu2cayqDbKG6c\n9tHegzBX+k3msOAMIrLK7uc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "mbecker@safaridigitalapp.iam.gserviceaccount.com",
+  "client_id": "104656216862428584787",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mbecker%40safaridigitalapp.iam.gserviceaccount.com"
+}

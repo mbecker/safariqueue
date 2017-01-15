@@ -1,0 +1,19 @@
+{
+  "name": "firebasequeue",
+  "version": "0.0.1",
+  "description": "Job pipleine for safari to resize images, send notifications, etc.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mats.becker@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^3.6.5",
+    "firebase-admin": "^4.0.4",
+    "firebase-queue": "^1.6.1",
+    "google-cloud": "^0.45.2",
+    "mkdirp": "^0.5.1",
+    "sharp": "^0.17.0"
+  }
+}
