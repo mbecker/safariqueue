@@ -44,6 +44,9 @@ var queue = new Queue(firebaseRef, function(data, progress, resolve, reject) {
       console.log(":: ERROR :: Object missing: snapshot.gcloud");
       return reject(":: ERROR :: Object missing: snapshot.gcloud");
     }
+    // Get parkname
+    let parkname = data.ref.split("/")[1];
+    console.log(parkname);
     // Get gcloud url from firebase
     let gcloudURL = snapshot.val().gcloud;
     // Get URL pathname
@@ -58,7 +61,7 @@ var queue = new Queue(firebaseRef, function(data, progress, resolve, reject) {
     // Get file from google storage bucket
     var gcsFile = bucket.file(localFileFolder + '/' + localFile);
 
-    let downloadFolder = FOLDER + "/" + localFileFolder;
+    let downloadFolder = FOLDER + "/" + parkname + "/" + localFileFolder;
     mkdirp(path.join(__dirname, downloadFolder), function (err) {
       if(err){
         console.log(err);
@@ -94,7 +97,7 @@ var queue = new Queue(firebaseRef, function(data, progress, resolve, reject) {
                 // const height = Math.round(info.height * 50 / 100);
                 const width = 375;
                 const height = 300;
-                let resizedFolder = FOLDER + "/" + localFileFolder + "/resized/";
+                let resizedFolder = downloadFolder + "/resized/";
                 let resizedFile = resizedFolder + localFileName + "_375x300." + localFileExtension;
                 
                 mkdirp(path.join(__dirname, resizedFolder), function (err) {

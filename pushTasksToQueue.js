@@ -15,20 +15,7 @@ let data = {
 	"ref": "park/addo/animals/Elephant1-123/images"
 };
 let data2 = [
-	"park/addo/animals/coati-409/images",
-	"park/addo/animals/Elephant1-123/images",
-	"park/addo/animals/Elephant1-123/images",
-	"park/addo/animals/coati-409/images",
-	"park/addo/animals/coati-535/images",
-	"park/addo/animals/coyote-432/images",
-	"park/addo/animals/elephants-raising-trunk-514/images",
-	"park/addo/animals/elpehants-drinking-626/images",
-	"park/addo/animals/giraffes-eating-505/images",
-	"park/addo/animals/greenmountains-453/images",
-	"park/addo/animals/lions-in-the-wildness-943/images",
-	"park/addo/animals/lions-on-the-street-445/images",
-	"park/addo/animals/mandrill-869/images",
-	"park/addo/animals/ocelot-938/images"
+ "park/addo/attractions/picnic-551/images"
 ];
 data2.forEach(function(refData, index, array) {
 	let data = {
