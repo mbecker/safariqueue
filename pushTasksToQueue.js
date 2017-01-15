@@ -15,7 +15,7 @@ let data = {
 	"ref": "park/addo/animals/Elephant1-123/images"
 };
 let data2 = [
- "park/addo/attractions/picnic-551/images"
+	"park/addo/attractions/-KZaCv_ljXAZLM7nkfM4addclose/images"
 ];
 data2.forEach(function(refData, index, array) {
 	let data = {

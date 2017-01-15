@@ -39,7 +39,10 @@ var queue = new Queue(firebaseRef, function(data, progress, resolve, reject) {
   // Read firebase snapshot from task ref
   Admin.database().ref(data.ref).once('value').then(function(snapshot) {
     // console.log(snapshot.val());
-
+    if(snapshot.val() == null){
+      console.log("snapshot null");
+      return reject("snapshot null");
+    }
     if(!snapshot.val().hasOwnProperty('gcloud')) {
       console.log(":: ERROR :: Object missing: snapshot.gcloud");
       return reject(":: ERROR :: Object missing: snapshot.gcloud");
@@ -197,7 +200,9 @@ var queue = new Queue(firebaseRef, function(data, progress, resolve, reject) {
 
     })
 
-    
+  }, function(error) {
+    // The Promise was rejected.
+    console.error(error);
   });
 
 });
