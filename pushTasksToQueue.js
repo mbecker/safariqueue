@@ -15,26 +15,27 @@ let data = {
 	"ref": "park/addo/animals/Elephant1-123/images"
 };
 let data2 = [
-	"park/addo/animals/coati-409/images",
-	"park/addo/animals/Elephant1-123/images",
-	"park/addo/animals/Elephant1-123/images",
-	"park/addo/animals/coati-409/images",
-	"park/addo/animals/coati-535/images",
-	"park/addo/animals/coyote-432/images",
-	"park/addo/animals/elephants-raising-trunk-514/images",
-	"park/addo/animals/elpehants-drinking-626/images",
-	"park/addo/animals/giraffes-eating-505/images",
-	"park/addo/animals/greenmountains-453/images",
-	"park/addo/animals/lions-in-the-wildness-943/images",
-	"park/addo/animals/lions-on-the-street-445/images",
-	"park/addo/animals/mandrill-869/images",
-	"park/addo/animals/ocelot-938/images",
-	"park/addo/attractions/-KZaCv_ljXAZLM7nkfM4addclose/images",
- "park/addo/attractions/childrenplace-736/images",
- "park/addo/attractions/home-622/images",
- "park/addo/attractions/mainentry-789/images",
- "park/addo/attractions/picnic-551/images",
- "park/kruger/animals/Elephant1-8/images"
+	// "park/addo/animals/coati-409/images",
+	// "park/addo/animals/Elephant1-123/images",
+	// "park/addo/animals/Elephant1-123/images",
+	// "park/addo/animals/coati-409/images",
+	// "park/addo/animals/coati-535/images",
+	// "park/addo/animals/coyote-432/images",
+	// "park/addo/animals/elephants-raising-trunk-514/images",
+	// "park/addo/animals/elpehants-drinking-626/images",
+	// "park/addo/animals/giraffes-eating-505/images",
+	// "park/addo/animals/greenmountains-453/images",
+	// "park/addo/animals/lions-in-the-wildness-943/images",
+	// "park/addo/animals/lions-on-the-street-445/images",
+	// "park/addo/animals/mandrill-869/images",
+	// "park/addo/animals/ocelot-938/images",
+	// "park/addo/attractions/-KZaCv_ljXAZLM7nkfM4addclose/images",
+ // "park/addo/attractions/childrenplace-736/images",
+ // "park/addo/attractions/home-622/images",
+ // "park/addo/attractions/mainentry-789/images",
+ // "park/addo/attractions/picnic-551/images",
+ // "park/kruger/animals/Elephant1-8/images",
+ "park/kruger/animals/-KY_9_E_ZYdmijuagawr/images"
 ];
 data2.forEach(function(refData, index, array) {
 	let data = {
