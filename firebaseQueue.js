@@ -148,8 +148,8 @@ var queue = new Queue(queueRef, function(data, progress, resolve, reject) {
 			.spread(function(pathDownloadedFile, info, width, height){
 				console.log(":: sharp image ::");
 				Promise.all([
-						resizeImage(firebaseRef, pathDownloadedFile, width, height, fileType, parkName, fileNameExtension + '_' + width + 'x' + height + '.' + fileWithExtension),
-						resizeImage(firebaseRef, pathDownloadedFile, 100, 100, fileType, parkName, fileNameExtension + '_' + 100 + 'x' + 100 + '.' + fileWithExtension)
+						resizeImage(data.ref, pathDownloadedFile, width, height, fileType, parkName, fileNameExtension + '_' + width + 'x' + height + '.' + fileWithExtension),
+						resizeImage(data.ref, pathDownloadedFile, 100, 100, fileType, parkName, fileNameExtension + '_' + 100 + 'x' + 100 + '.' + fileWithExtension)
 					])
 			})
 			.then(function(){
