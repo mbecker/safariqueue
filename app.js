@@ -4,8 +4,8 @@ const path = require('path');
 const url = require('url');
 const Admin = require("firebase-admin");
 const Queue 		= require('firebase-queue');
-var gcloud    = require('google-cloud');
-var storage   = gcloud.storage;
+const gcloud    = require('google-cloud');
+const storage   = gcloud.storage;
 const FOLDER = "download";
 const RESIZEDFOLDER = "resized";
 const sharp = require('sharp');
@@ -27,6 +27,7 @@ var bucket = gcs.bucket('safaridigitalapp.appspot.com');
 
 var firebaseRef = Admin.database().ref('queue');
 var queue = new Queue(firebaseRef, function(data, progress, resolve, reject) {
+
   // Read and process task data
   console.log(":: TASK :: STARTING ...");
   console.log(data);
@@ -77,7 +78,7 @@ var queue = new Queue(firebaseRef, function(data, progress, resolve, reject) {
           return reject(":: ERROR :: File is no image/jpeg");
         }
         // Download file
-        var localFilepath = path.join(__dirname, downloadFolder, urlArray[1]);
+        var localFilepath = path.join(__dirname, downloadFolder, localFile);
         gcsFile.createReadStream()
           .on('error', function(err) {
             console.log(err);

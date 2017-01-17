@@ -9,6 +9,7 @@
   "author": "mats.becker@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.4.7",
     "firebase": "^3.6.5",
     "firebase-admin": "^4.0.4",
     "firebase-queue": "^1.6.1",
