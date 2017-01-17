@@ -142,7 +142,7 @@ var queue = new Queue(queueRef, function(data, progress, resolve, reject) {
 						.metadata().then(info => {
 							console.log(":: sharp.metadata.info ::");
 							console.log(info);
-							return [ pathDownloadedFile, info, 350, 300 ];
+							return [ pathDownloadedFile, info, 375, 300 ];
 						})
 			})
 			.spread(function(pathDownloadedFile, info, width, height){
