@@ -30,12 +30,12 @@ let data2 = [
 	"park/addo/animals/mandrill-869/images",
 	"park/addo/animals/ocelot-938/images",
 	"park/addo/attractions/-KZaCv_ljXAZLM7nkfM4addclose/images",
- "park/addo/attractions/childrenplace-736/images",
- "park/addo/attractions/home-622/images",
- "park/addo/attractions/mainentry-789/images",
- "park/addo/attractions/picnic-551/images",
- "park/kruger/animals/Elephant1-8/images",
- "park/kruger/animals/-KY_9_E_ZYdmijuagawr/images"
+ 	"park/addo/attractions/childrenplace-736/images",
+	"park/addo/attractions/home-622/images",
+	"park/addo/attractions/mainentry-789/images",
+	"park/addo/attractions/picnic-551/images",
+	"park/kruger/animals/Elephant1-8/images",
+	"park/kruger/animals/-KY_9_E_ZYdmijuagawr/images"
 ];
 data2.forEach(function(refData, index, array) {
 	let data = {

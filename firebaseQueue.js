@@ -1,11 +1,11 @@
-const winston = require('winston');
-  winston.add(winston.transports.File, { filename: 'logfile.log' });
-const path = require('path');
-const url = require('url');
-const mkdirp = require("mkdirp");
-const Promise = require("bluebird");
+const winston 	= require('winston');
+winston.add(winston.transports.File, { filename: 'logfile.log' });
+const path 		= require('path');
+const url 		= require('url');
+const mkdirp 	= require("mkdirp");
+const Promise 	= require("bluebird");
 Promise.promisifyAll(mkdirp);
-const sharp = require('sharp');
+const sharp 	= require('sharp');
 /*
  * gcloud
  */
@@ -18,8 +18,8 @@ const gcloud_storage = storage({
 /*
  * firebase
  */
-const Queue 		= require('firebase-queue');
-const Admin = require("firebase-admin");
+const Queue 	= require('firebase-queue');
+const Admin 	= require("firebase-admin");
 Admin.initializeApp({
   credential: Admin.credential.cert("safaridigitalapp-firebase-adminsdk-wtgyb-94256f1810.json"),
   databaseURL: "https://safaridigitalapp.firebaseio.com",
@@ -35,6 +35,7 @@ const queueRef = Admin.database().ref('queue');
 const CONST_IMAGE_QUALITY = 80;
 const CONST_IMAGE_TYPES = [
 	"image/jpeg",
+	"image/jpg",
 	"image/png"
 ]
 const CONST_UPLOAD_DIR = "resized";
@@ -42,7 +43,7 @@ const CONST_gcloud_bucket_NAME = 'safaridigitalapp.appspot.com';
 const gcloud_bucket = gcloud_storage.bucket(CONST_gcloud_bucket_NAME);
 
 const resizeImage = function(ref, pathDownloadedFile, width, height, toType, toPark, toFile){
-	sharp(pathDownloadedFile)
+	return sharp(pathDownloadedFile)
 		.resize(width, height)
 		.quality(CONST_IMAGE_QUALITY)
 		.toFile(path.join(__dirname, CONST_UPLOAD_DIR, toType, toPark, toFile))
@@ -67,12 +68,12 @@ const resizeImage = function(ref, pathDownloadedFile, width, height, toType, toP
 			return saveDataToFirebase(ref, data, width + 'x' + height)
 		})
 		.then(function(){
-			winston.log('info', ':: saveDataToFirebase - finished ::');
+			return winston.log('info', ':: saveDataToFirebase - finished ::');
 		})
 }
 const saveDataToFirebase = function(ref, data, imageSize){
 	winston.log('info', ':: saveDataToFirebase ::', { data: {ref: ref, data: data, imageSize: imageSize} });
-	Admin
+	return Admin
 		.database()
 		.ref(ref)
 		.child("resized")
@@ -134,7 +135,7 @@ var queue = new Queue(queueRef, function(data, progress, resolve, reject) {
 					var metadata = data[0];
 		  			var apiResponse = data[1];
 		  			if (CONST_IMAGE_TYPES.indexOf(metadata.contentType) == -1) {
-		  				winston.log('error', ':: IMAGE IS NOT IMAGE TYPE ::', { data: metadata.contentType });
+		  				winston.log('error', '- IMAGE IS NOT IMAGE TYPE', { data: metadata.contentType });
 		          		return Promise.reject("File is not an image.");
 		        	}
 		        	let pathDownloadedFile = path.join(__dirname, CONST_UPLOAD_DIR, fileType, parkName, fileName)
