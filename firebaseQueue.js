@@ -91,13 +91,14 @@ var queue = new Queue(queueRef, function(data, progress, resolve, reject) {
     	return reject(":: ERROR :: Object missing: data.ref");
   	}
 
+  	let firebaseRef = data.ref;
   let fileType;
   let fileName;
   let fileNameExtension;
   let fileWithExtension;
   let parkName;
 
-  Admin.database().ref(data.ref).once('value').then(function(snapshot) {
+  Admin.database().ref(firebaseRef).once('value').then(function(snapshot) {
 		if(snapshot.val() == null){
 	      winston.log('error', 'firebase snapshot.val() null');
 	      return reject(":: ERROR :: firebase snapshot.val() null");
@@ -106,8 +107,8 @@ var queue = new Queue(queueRef, function(data, progress, resolve, reject) {
 	    	winston.log('error', 'snapshot snapshot.val().public null');
 	      	return reject(":: ERROR :: firebase snapshot.val().public null");
 	    }
-	    
-	    let pathname = url.parse(snapshot.val().public).pathname;	    
+	    let snapshotData = snapshot.val();
+	    let pathname = url.parse(snapshotData.public).pathname;	    
 	    let urlArray = pathname.slice(1).split("/");
 
 	    fileType = urlArray[1]
@@ -172,10 +173,30 @@ var queue = new Queue(queueRef, function(data, progress, resolve, reject) {
 						resizeImage(data.ref, pathDownloadedFile, 100, 100, fileType, parkName, fileNameExtension + '_' + 100 + 'x' + 100 + '.' + fileWithExtension),
 						resizeImage(data.ref, pathDownloadedFile, 600, 600, fileType, parkName, fileNameExtension + '_' + 600 + 'x' + 600 + '.' + fileWithExtension)
 					])
+				.then(function(){
+					winston.log('info', ':: TASK FINISHED ::');
+					let itemPath	= firebaseRef.replace('items/','park/');
+					itemPath 		= itemPath.replace('/images','');
+					firebaseRef 	= firebaseRef.replace('/images','');
+					Admin.database().ref(firebaseRef).once('value').then(function(snapshot) {
+						winston.log('info', ':: MOVED ITEM TO PARK - GET DATA ::');
+						Admin.database().ref(itemPath).set(snapshot.val(), function(error){
+							if(error){
+								winston.log('error', ":: MOVED ITEM TO PARK - SAVE DATA", error);
+								return reject(error);
+							}
+							winston.log('info', ':: MOVED ITEM TO PARK - WRITE DATA SUCCESS ::');	
+						})
+							
+					})
+
+					
+				})
 			})
 			.then(function(){
 				winston.log('info', ':: TASK FINISHED ::');
-				progress(99);
+				progress(90);
+
 				return resolve();
 			})
 			.catch(function (e) {
