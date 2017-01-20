@@ -1,5 +1,18 @@
 const winston 	= require('winston');
 winston.add(winston.transports.File, { filename: 'logfile.log' });
+require('winston-daily-rotate-file');
+ winston.configure({
+    transports: [
+    	new (winston.transports.Console)(),
+      new winston.transports.DailyRotateFile({
+		    filename: './logs/log',
+		    datePattern: 'yyyy-MM-dd.',
+		    prepend: true,
+		    level: process.env.ENV === 'development' ? 'debug' : 'info'
+		  })
+    ]
+  });
+
 const path 		= require('path');
 const url 		= require('url');
 const mkdirp 	= require("mkdirp");
@@ -174,7 +187,7 @@ var queue = new Queue(queueRef, function(data, progress, resolve, reject) {
 						resizeImage(data.ref, pathDownloadedFile, 600, 600, fileType, parkName, fileNameExtension + '_' + 600 + 'x' + 600 + '.' + fileWithExtension)
 					])
 				.then(function(){
-					winston.log('info', ':: TASK FINISHED ::');
+					
 					let itemPath	= firebaseRef.replace('items/','park/');
 					itemPath 		= itemPath.replace('/images','');
 					firebaseRef 	= firebaseRef.replace('/images','');
@@ -185,7 +198,8 @@ var queue = new Queue(queueRef, function(data, progress, resolve, reject) {
 								winston.log('error', ":: MOVED ITEM TO PARK - SAVE DATA", error);
 								return reject(error);
 							}
-							winston.log('info', ':: MOVED ITEM TO PARK - WRITE DATA SUCCESS ::');	
+							winston.log('info', ':: MOVED ITEM TO PARK - WRITE DATA SUCCESS ::');
+							winston.log('info', ':: TASK FINISHED - Data moved::');
 						})
 							
 					})
@@ -194,7 +208,7 @@ var queue = new Queue(queueRef, function(data, progress, resolve, reject) {
 				})
 			})
 			.then(function(){
-				winston.log('info', ':: TASK FINISHED ::');
+				winston.log('info', ':: TASK FINISHED - return resolve() ::');
 				progress(90);
 
 				return resolve();
