@@ -200,6 +200,7 @@ var queue = new Queue(queueRef, function(data, progress, resolve, reject) {
 							}
 							winston.log('info', ':: MOVED ITEM TO PARK - WRITE DATA SUCCESS ::');
 							winston.log('info', ':: TASK FINISHED - Data moved::');
+							return true;
 						})
 							
 					})
