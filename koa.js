@@ -39,8 +39,18 @@ app.use(route.get('/logs', logs));
 app.use(route.get('/log/:id', log));
 
 function *logs() {
-  var logs = {}
-	let files = fs.readdirSync(__dirname + '/logs');
+  var logs = {};
+	var files = [];
+
+  try {
+    files = fs.readdirSync(__dirname + '/logs');
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      console.log('Directory log does not exist.');
+    } else {
+      throw err;
+    }
+  }
 	
   files.forEach(function(element, index, array){
     if(path.extname(element) == ".log") {
@@ -61,12 +71,20 @@ function *logs() {
   
   this.body = yield render('mail', { logs: logs });
   
-  // fs.writeFileSync(__dirname + '/logs/' + 'logs.json', logs, 'utf8')
-  fs.writeFile(__dirname + '/logs/' + 'logs.json', JSON.stringify(logs, null, 4), 'utf8', (err) => {
-    if (err) console.log(err);
-    console.log(':: Write File :: logs.json saved');
-  });
-  // console.log(logs);
+  // Write json object to file (logs.json)
+  try {
+    fs.writeFile(__dirname + '/logs/' + 'logs.json', JSON.stringify(logs, null, 4), 'utf8', (err) => {
+      if (err) console.log(err);
+      console.log(':: Write File :: logs.json saved');
+    });  
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      console.log('Directory log does not exist.');
+    } else {
+      throw err;
+    }
+  }
+
 }
 
 function *log(fileDate) {

@@ -665,15 +665,19 @@
 	    </div>
 	    <div class="wrapper hidden-sm hidden-xs" id="email-menu">
 	      <ul class="nav nav-pills nav-stacked nav-sm">
-	        <% Object.keys(logs["files"]).forEach(function(key, keyIndex) { %>
-	        <!-- console.log("index:",keyIndex,"key:",key,"value:",usersObject[key]); -->
-            <% if(logs["current"] == logs["files"][key]) { %>
-              <li class="active">
-            <% } else { %>
-              <li>
-            <% } %>
-            <a href="/log/<%= logs["files"][key] %>"><%= logs["files"][key] %></a></li>
-          <% }); %>
+	        <% 
+          if(logs.count > 0) {
+            Object.keys(logs["files"]).forEach(function(key, keyIndex) {
+              if(logs["current"] == logs["files"][key]) { %>
+                <li class="active">
+              <% } else { %>
+                <li>
+              <% } %>
+              <a href="/log/<%= logs["files"][key] %>"><%= logs["files"][key] %></a></li>
+            <%
+            })
+          }
+          %>
 	      </ul>
 	      <div class="wrapper">Labels</div>
 	      <ul class="nav nav-pills nav-stacked nav-sm">
@@ -732,14 +736,35 @@
 	      <!-- list -->
 	      <ul class="list-group list-group-lg no-radius m-b-none m-t-n-xxs">
 	        
-	        <% Object.keys(logs["data"]).forEach(function(key, keyIndex) { %>
-	        <!-- console.log("index:",keyIndex,"key:",key,"value:",usersObject[key]); -->
-            <% Object.keys(logs["data"][key]).forEach(function(key2, keyIndex2) { %>
-              <%= logs["data"][key][key2] %>
-            <% }); %>  
-            <br />
-          <% }); %>
-          
+	        <%
+          if(logs.count > 0) {
+            Object.keys(logs["data"]).forEach(function(key, keyIndex) {
+              Object.keys(logs["data"][key]).forEach(function(key2, keyIndex2) { %>
+                <%= logs["data"][key][key2] %>
+          <% 
+              });
+          %>
+          <br>
+          <%
+            }); 
+          } else {
+          %>
+                  <li class="list-group-item clearfix b-l-3x">
+                    <a class="avatar thumb pull-left m-r" href="#/app/page/profile">
+                      
+                    </a>
+                    <div class="pull-right text-sm text-muted">
+                      <span class="hidden-xs ">-</span>
+                      <i class="fa fa-paperclip m-l-sm"></i>
+                    </div>
+                    <div class="clear">
+                      <div><a  class="text-md " href="#/app/mail/10">No logs.</a></div>
+                    </div>      
+                  </li>   
+          <%
+          }
+          %>
+          <!--
 	        <li class="list-group-item clearfix b-l-3x b-l-info">
 	          <a class="avatar thumb pull-left m-r" href="#/app/page/profile">
 	            <img ng-src="/img/a10.jpg" src="/img/a10.jpg">
@@ -870,6 +895,7 @@
 	            <div class="text-ellipsis m-t-xs ">Morbi id neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Vestibulum ullamcorper sodales</div>
 	          </div>      
 	        </li>
+          -->
 	      </ul>
 	      <!-- / list -->
 	    </div>
