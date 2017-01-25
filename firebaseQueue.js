@@ -61,7 +61,7 @@ const resizeImage = function(ref, pathDownloadedFile, width, height, toType, toP
 		.quality(CONST_IMAGE_QUALITY)
 		.toFile(path.join(__dirname, CONST_UPLOAD_DIR, toType, toPark, toFile))
 		.then(function(info){
-			winston.log('info', ':: bucket.upload ::', { data: {toType: toType, toPark: toPark, toFile: toFile} });
+			winston.log('info', ':: bucket.upload start ::', { data: {toType: toType, toPark: toPark, toFile: toFile} });
 			var options = {
 				destination: path.join(toType, toPark, toFile),
 				public: true
@@ -70,7 +70,7 @@ const resizeImage = function(ref, pathDownloadedFile, width, height, toType, toP
 		})
 		.then(function(data){
 			var file = data[0];
-			winston.log('info', ':: bucket.upload ::', { data: {file_metadata_media: file.metadata.media} });
+			winston.log('info', ':: bucket.upload  end::', { data: {file_metadata: file.metadata} });
 			let uploadedData = {
 				"gcloud": "gs://" + CONST_gcloud_bucket_NAME + "/" + path.join(toType, toPark, toFile),
 				"public": file.metadata.mediaLink
