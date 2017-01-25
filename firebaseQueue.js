@@ -56,12 +56,13 @@ const CONST_gcloud_bucket_NAME = 'safaridigitalapp.appspot.com';
 const gcloud_bucket = gcloud_storage.bucket(CONST_gcloud_bucket_NAME);
 
 const resizeImage = function(ref, pathDownloadedFile, width, height, toType, toPark, toFile){
+	winston.log('info', width + 'x' + height + ' :: sharp.image :: resizeImage ', { data: {width: width, height: height} });
 	return sharp(pathDownloadedFile)
 		.resize(width, height)
 		.quality(CONST_IMAGE_QUALITY)
 		.toFile(path.join(__dirname, CONST_UPLOAD_DIR, toType, toPark, toFile))
 		.then(function(info){
-			winston.log('info', ':: bucket.upload start ::', { data: {toType: toType, toPark: toPark, toFile: toFile} });
+			winston.log('info', width + 'x' + height + ' :: upload :: start', { data: {toType: toType, toPark: toPark, toFile: toFile} });
 			var options = {
 				destination: path.join(toType, toPark, toFile),
 				public: true
@@ -70,7 +71,7 @@ const resizeImage = function(ref, pathDownloadedFile, width, height, toType, toP
 		})
 		.then(function(data){
 			var file = data[0];
-			winston.log('info', ':: bucket.upload  end::', { data: {file_metadata: file.metadata} });
+			winston.log('info', width + 'x' + height + ' :: upload :: success', { data: {file_metadata: file.metadata} });
 			let uploadedData = {
 				"gcloud": "gs://" + CONST_gcloud_bucket_NAME + "/" + path.join(toType, toPark, toFile),
 				"public": file.metadata.mediaLink
@@ -81,11 +82,11 @@ const resizeImage = function(ref, pathDownloadedFile, width, height, toType, toP
 			return saveDataToFirebase(ref, data, width + 'x' + height)
 		})
 		.then(function(){
-			return winston.log('info', ':: saveDataToFirebase - finished ::');
+			return winston.log('info', width + 'x' + height + ' :: firebase :: save data success');
 		})
 }
 const saveDataToFirebase = function(ref, data, imageSize){
-	winston.log('info', ':: saveDataToFirebase ::', { data: {ref: ref, data: data, imageSize: imageSize} });
+	winston.log('info', imageSize + ' :: firebase :: save data success', { data: {ref: ref, data: data, imageSize: imageSize} });
 	return Admin
 		.database()
 		.ref(ref)
@@ -96,7 +97,7 @@ const saveDataToFirebase = function(ref, data, imageSize){
 
 var queue = new Queue(queueRef, function(data, progress, resolve, reject) {
 	// Read and process task data
-	winston.log('info', ':: TASK STARTING ::', { data: data });
+	winston.log('info', 'TASK STARTING', { data: data });
 
   	progress(1)
   	if(!data.hasOwnProperty('ref')) {
@@ -104,7 +105,7 @@ var queue = new Queue(queueRef, function(data, progress, resolve, reject) {
     	return reject(":: ERROR :: Object missing: data.ref");
   	}
 
-  	let firebaseRef = data.ref;
+  let firebaseRef = data.ref; // ref is: /items/park/addo/animals/-sad23798137e/images/
   let fileType;
   let fileName;
   let fileNameExtension;
@@ -141,16 +142,16 @@ var queue = new Queue(queueRef, function(data, progress, resolve, reject) {
 			})
 			.then(function(file){
 				progress(2);
-				winston.log('info', ':: gcloud_bucket.file - get file reference ::');
-				
+				winston.log('info', 'Download file :: gcloud_bucket.file - get file reference ::');
+
 				return file.getMetadata().then(function(data){
 					progress(3);
-					winston.log('info', ':: file.getMetadata - get file metadata ::');
+					winston.log('info', 'Download file :: file.getMetadata - get file metadata ::');
 					var metadata = data[0];
 		  			var apiResponse = data[1];
 		  			if (CONST_IMAGE_TYPES.indexOf(metadata.contentType) == -1) {
-		  				winston.log('error', '- IMAGE IS NOT IMAGE TYPE', { data: metadata.contentType });
-		          		return Promise.reject("File is not an image.");
+		  				winston.log('error', 'Download file :: file.getMetadata - Imae extension is not in CONST_IMAGE_TYPES', { data: metadata.contentType });
+		          		return Promise.reject('Download file :: file.getMetadata - Imae extension is not in CONST_IMAGE_TYPES');
 		        	}
 		        	let pathDownloadedFile = path.join(__dirname, CONST_UPLOAD_DIR, fileType, parkName, fileName)
 		        	return file.download({
@@ -167,52 +168,46 @@ var queue = new Queue(queueRef, function(data, progress, resolve, reject) {
 			.then(function(pathDownloadedFile){
 				progress(5);
 				
-				winston.log('info', ':: file.download ::', { data: pathDownloadedFile });
+				winston.log('info', 'Download file :: file.download ::', { data: pathDownloadedFile });
 				
 				return sharp(pathDownloadedFile)
 						.metadata().then(info => {
 							progress(6);
 							
-							winston.log('info', ':: sharp.metadata ::', { data: info });
+							winston.log('info', 'sharp :: metadata');
 							
 							return [ pathDownloadedFile, info, 375, 300 ];
 						})
 			})
 			.spread(function(pathDownloadedFile, info, width, height){
 				progress(7);
-				winston.log('info', ':: sharp.image - resizeImage ::', { data: {width: width, height: height} });
+				winston.log('info', 'sharp :: resizeImage array');
 				Promise.all([
 						resizeImage(data.ref, pathDownloadedFile, width, height, fileType, parkName, fileNameExtension + '_' + width + 'x' + height + '.' + fileWithExtension),
 						resizeImage(data.ref, pathDownloadedFile, 100, 100, fileType, parkName, fileNameExtension + '_' + 100 + 'x' + 100 + '.' + fileWithExtension),
 						resizeImage(data.ref, pathDownloadedFile, 600, 600, fileType, parkName, fileNameExtension + '_' + 600 + 'x' + 600 + '.' + fileWithExtension)
 					])
 				.then(function(){
-					
-					let itemPath	= firebaseRef.replace('items/','park/');
-					itemPath 		= itemPath.replace('/images','');
-					firebaseRef 	= firebaseRef.replace('/images','');
+					winston.log('info', 'FIREBASE :: Start copy item to reference ::');
+					progress(95);
+					// Modify reference path
+					firebaseRef 	= firebaseRef.replace('/images',''); // delete images from ref "/items/park/addo/animals/images"
+					// Path for new item
+					let itemPath	= firebaseRef.replace('items/','park/'); // change ref "/items/..." to "/park/..."
 					Admin.database().ref(firebaseRef).once('value').then(function(snapshot) {
-						winston.log('info', ':: MOVED ITEM TO PARK - GET DATA ::');
+						winston.log('info', 'FIREBASE :: SUCCESS GET DATA ::');
 						Admin.database().ref(itemPath).set(snapshot.val(), function(error){
 							if(error){
-								winston.log('error', ":: MOVED ITEM TO PARK - SAVE DATA", error);
+								winston.log('error', "FIREBASE :: ERROR SAVE DATA", error);
 								return reject(error);
 							}
-							winston.log('info', ':: MOVED ITEM TO PARK - WRITE DATA SUCCESS ::');
-							winston.log('info', ':: TASK FINISHED - Data moved::');
-							return true;
+							winston.log('info', 'FIREBASE :: SUCCESS SAVE DATA');
+							winston.log('info', 'TASK FINISHED');
+							return resolve();
 						})
 							
 					})
-
-					
 				})
-			})
-			.then(function(){
-				winston.log('info', ':: TASK FINISHED - return resolve() ::');
-				progress(90);
-
-				return resolve();
 			})
 			.catch(function (e) {
 				winston.log('error', e);
