@@ -15,7 +15,7 @@
 
 </head>
 <body>
-<div class="app app-header-fixed ">
+<div class="app app-header-fixed app-aside-folded">
   
     <!-- header -->
   <header id="header" class="app-header navbar" role="menu">
@@ -661,29 +661,40 @@
 	  <div class="col w-md bg-light dk b-r bg-auto">
 	    <div class="wrapper b-b bg">
 	      <button class="btn btn-sm btn-default pull-right visible-sm visible-xs" ui-toggle="show" target="#email-menu"><i class="fa fa-bars"></i></button>
-	      <a class="btn btn-sm btn-danger w-xs font-bold">Compose</a>
+	      <a class="btn btn-sm btn-danger w-xs font-bold" href="/logs">Logs</a>
 	    </div>
 	    <div class="wrapper hidden-sm hidden-xs" id="email-menu">
-	      <ul class="nav nav-pills nav-stacked nav-sm">
 	        <% 
-          if(logs.count > 0) {
+          if(typeof logs["files"] != "undefined" && logs["files"].length > 0) {
+          %>
+            <ul class="nav nav-pills nav-stacked nav-sm">
+            <%
             Object.keys(logs["files"]).forEach(function(key, keyIndex) {
               if(logs["current"] == logs["files"][key]) { %>
                 <li class="active">
               <% } else { %>
                 <li>
               <% } %>
-              <a href="/log/<%= logs["files"][key] %>"><%= logs["files"][key] %></a></li>
+                  <a href="/log/<%= logs["files"][key] %>">
+                    <%= logs["files"][key] %>
+                  </a>
+                </li>
             <%
-            })
+            }) %>
+            </ul>
+          <%  
+          } else {
+          %>
+            No logs found!
+          <%
           }
           %>
-	      </ul>
 	      <div class="wrapper">Labels</div>
 	      <ul class="nav nav-pills nav-stacked nav-sm">
 	        <li>
-	          <a><i class="fa fa-fw fa-circle text-info"></i>Angular</a>
+	          <a><i class="fa fa-fw fa-circle text-info"></i>info</a>
 	        </li>
+          <!--
 	        <li>
 	          <a><i class="fa fa-fw fa-circle text-primary"></i>Bootstrap</a>
 	        </li>
@@ -693,6 +704,7 @@
 	        <li>
 	          <a><i class="fa fa-fw fa-circle text-muted"></i>Client</a>
 	        </li>
+          -->
 	      </ul>
 	      <div class="wrapper">
 	        <form name="label">
@@ -737,14 +749,38 @@
 	      <ul class="list-group list-group-lg no-radius m-b-none m-t-n-xxs">
 	        
 	        <%
-          if(logs.count > 0) {
+          if(typeof logs["data"] != "undefined" && logs["data"].length > 0) {
             Object.keys(logs["data"]).forEach(function(key, keyIndex) {
-              Object.keys(logs["data"][key]).forEach(function(key2, keyIndex2) { %>
-                <%= logs["data"][key][key2] %>
-          <% 
-              });
           %>
-          <br>
+            <li class="list-group-item clearfix b-l-3x 
+            <%
+              if(logs["data"][key]["message"].includes("TASK STARTING") || logs["data"][key]["message"].includes("TASK FINISHED")) {
+            %>
+              b-l-success
+            <% } else { %>
+              b-l-info
+            <% } %>
+            ">
+              <div class="pull-right text-sm text-muted">
+                <span class="hidden-xs "><%= logs["data"][key]["timestamp"] %></span>
+              </div>
+              <div class="clear">
+                <div>
+                  <a  class="text-md " href="#/app/mail/10"><%= logs["data"][key]["message"] %></a>
+                  <span class="label 
+                    <% if(logs["data"][key]["level"] == "info") { %>
+                      text-info
+                    <% } %>
+                    bg-light m-l-sm">
+                    <%= logs["data"][key]["level"] %>
+                  </span>
+                </div>
+                <% if(typeof logs["data"][key]["data"] != "undefined") { %>
+                  <pre class="m-t-xs "><%= JSON.stringify(logs["data"][key]["data"], undefined, 4).trim() %></pre>
+                <% } %>
+                
+              </div>      
+            </li>
           <%
             }); 
           } else {
@@ -950,9 +986,7 @@ function traverse(o,func) {
 }
 
 //that's all... no magic, no bloated framework
-traverse(myVar, process);
-
-
+// traverse(myVar, process);
 </script>
 
 </body>

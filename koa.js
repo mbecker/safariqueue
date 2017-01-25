@@ -40,6 +40,7 @@ app.use(route.get('/log/:id', log));
 
 function *logs() {
   var logs = {};
+  var logFiles = [];
 	var files = [];
 
   try {
@@ -56,6 +57,8 @@ function *logs() {
     if(path.extname(element) == ".log") {
       let logContent  = fs.readFileSync(__dirname + '/logs/' + element, 'utf8');
       let logLines    = logContent.split(/\r?\n/);
+
+      logFiles.push(element.slice(0, element.length - 4))
       
       var logLinesJsonArray = [];
       logLines.forEach(function(element, index, array){
@@ -66,24 +69,18 @@ function *logs() {
       })
       
       logs[element.slice(0, element.length - 4)] = logLinesJsonArray
+      
     }
   });
+  logs.files = logFiles;
   
   this.body = yield render('mail', { logs: logs });
   
   // Write json object to file (logs.json)
-  try {
-    fs.writeFile(__dirname + '/logs/' + 'logs.json', JSON.stringify(logs, null, 4), 'utf8', (err) => {
-      if (err) console.log(err);
-      console.log(':: Write File :: logs.json saved');
-    });  
-  } catch (err) {
-    if (err.code === 'ENOENT') {
-      console.log('Directory log does not exist.');
-    } else {
-      throw err;
-    }
-  }
+  fs.writeFile(__dirname + '/logs/' + 'logs.json', JSON.stringify(logs, null, 4), 'utf8', (err) => {
+    if (err) return console.log(err);
+    console.log(':: Write File :: logs.json saved');
+  });
 
 }
 
@@ -95,7 +92,17 @@ function *log(fileDate) {
   /*
    * logFiles: Get all filenames in dir '/log'
    */
-  let logfiles    = fs.readdirSync(__dirname + '/logs');
+  var logfiles = [];
+  try {
+    logfiles = fs.readdirSync(__dirname + '/logs');
+  } catch(err) {
+    if (err.code === 'ENOENT') {
+      console.log('Directory log does not exist.');
+    } else {
+      throw err;
+    }
+  }
+
   logfiles.forEach(function(element, index, array){
     if(path.extname(element) == ".log") {
       logFilesJsonArray.push(element.slice(0, element.length - 4))  
@@ -105,22 +112,34 @@ function *log(fileDate) {
   /*
    * logLines: Get for specific log file the josn data
    */
-	let logContent  = fs.readFileSync(__dirname + '/logs/' + fileDate + ".log", 'utf8');
-  let logLines    = logContent.split(/\r?\n/);
-	logLines.forEach(function(element, index, array){
-    if(element.length > 0){
-      let parsedLineToJSON = JSON.parse(element);
-      logLinesJsonArray.push(parsedLineToJSON); 
+  var logContent;
+  try {
+    logContent    = fs.readFileSync(__dirname + '/logs/' + fileDate + ".log", 'utf8');
+    let logLines  = logContent.split(/\r?\n/);
+    logLines.forEach(function(element, index, array){
+      if(element.length > 0){
+        let parsedLineToJSON = JSON.parse(element);
+        logLinesJsonArray.push(parsedLineToJSON); 
+      }
+    })
+  } catch(err) {
+    if (err.code === 'ENOENT') {
+      console.log('Directory log does not exist.');
+    } else {
+      throw err;
     }
-  })
-  
+  }
+	
   /*
    * JSON Data
    */
-  logs["current"] = fileDate  
-  logs["files"]   = logFilesJsonArray
-  logs["data"]    = logLinesJsonArray;
-  // console.log(logs);
+  logs["current"] = fileDate
+  if(logFilesJsonArray.length > 1){
+    logs["files"]   = logFilesJsonArray  
+  }  
+  if(logLinesJsonArray.length > 1){
+    logs["data"]    = logLinesJsonArray;  
+  }
   
   this.body = yield render('mail', { logs: logs });
 }
