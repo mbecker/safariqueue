@@ -4,7 +4,7 @@ const koa		= require('koa');
 const auth	= require('koa-basic-auth');
 const route = require('koa-route');
 const views = require('co-views');
-const koaStatic = require('koa-static');
+//const koaStatic = require('koa-static');
 const app 	= module.exports = koa();
 
 // setup views, appending .ejs
@@ -13,7 +13,7 @@ const app 	= module.exports = koa();
 var render = views(path.join(__dirname, '/views'), { ext: 'ejs' });
 
 // Static files
-app.use(koaStatic(__dirname + '/public'));
+// app.use(koaStatic(__dirname + '/public'));
 
 // custom 401 handling
 app.use(function* (next) {
@@ -60,6 +60,7 @@ function *logs() {
 
       logFiles.push(element.slice(0, element.length - 4))
       
+      /*
       var logLinesJsonArray = [];
       logLines.forEach(function(element, index, array){
         if(element.length > 0){
@@ -69,17 +70,16 @@ function *logs() {
       })
       
       logs[element.slice(0, element.length - 4)] = logLinesJsonArray
-      
+      */
     }
   });
-  logs.files = logFiles;
+  logs.files = logFiles.reverse();
   
   this.body = yield render('mail', { logs: logs });
   
   // Write json object to file (logs.json)
   fs.writeFile(__dirname + '/logs/' + 'logs.json', JSON.stringify(logs, null, 4), 'utf8', (err) => {
     if (err) return console.log(err);
-    console.log(':: Write File :: logs.json saved');
   });
 
 }
@@ -135,7 +135,7 @@ function *log(fileDate) {
    */
   logs["current"] = fileDate
   if(logFilesJsonArray.length > 1){
-    logs["files"]   = logFilesJsonArray  
+    logs["files"]   = logFilesJsonArray.reverse()  
   }  
   if(logLinesJsonArray.length > 1){
     logs["data"]    = logLinesJsonArray;  

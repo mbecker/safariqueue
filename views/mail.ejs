@@ -5,13 +5,13 @@
   <title>Html version | Angulr</title>
   <meta name="description" content="app, web app, responsive, responsive layout, admin, admin panel, admin dashboard, flat, flat ui, ui kit, AngularJS, ui route, charts, widgets, components" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <link rel="stylesheet" href="/libs/assets/animate.css/animate.css" type="text/css" />
-  <link rel="stylesheet" href="/libs/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
-  <link rel="stylesheet" href="/libs/assets/simple-line-icons/css/simple-line-icons.css" type="text/css" />
-  <link rel="stylesheet" href="/libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="/assets/libs/assets/animate.css/animate.css" type="text/css" />
+  <link rel="stylesheet" href="/assets/libs/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="/assets/libs/assets/simple-line-icons/css/simple-line-icons.css" type="text/css" />
+  <link rel="stylesheet" href="/assets/libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
 
-  <link rel="stylesheet" href="/css/font.css" type="text/css" />
-  <link rel="stylesheet" href="/css/app.css" type="text/css" />
+  <link rel="stylesheet" href="/assets//css/font.css" type="text/css" />
+  <link rel="stylesheet" href="/assets//css/app.css" type="text/css" />
 
 </head>
 <body>
@@ -30,7 +30,7 @@
         <!-- brand -->
         <a href="#/" class="navbar-brand text-lt">
           <i class="fa fa-btc"></i>
-          <img src="/img/logo.png" alt="." class="hide">
+          <img src="/assets/img/logo.png" alt="." class="hide">
           <span class="hidden-folded m-l-xs">Angulr</span>
         </a>
         <!-- / brand -->
@@ -212,7 +212,7 @@
                 <div class="list-group">
                   <a href class="list-group-item">
                     <span class="pull-left m-r thumb-sm">
-                      <img src="/img/a0.jpg" alt="..." class="img-circle">
+                      <img src="/assets/img/a0.jpg" alt="..." class="img-circle">
                     </span>
                     <span class="clear block m-b-none">
                       Use awesome animate.css<br>
@@ -237,7 +237,7 @@
           <li class="dropdown">
             <a href="#" data-toggle="dropdown" class="dropdown-toggle clear" data-toggle="dropdown">
               <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
-                <img src="/img/a0.jpg" alt="...">
+                <img src="/assets/img/a0.jpg" alt="...">
                 <i class="on md b-white bottom"></i>
               </span>
               <span class="hidden-sm hidden-md">John.Smith</span> <b class="caret"></b>
@@ -291,7 +291,7 @@
             <div class="dropdown wrapper">
               <a href="app.page.profile">
                 <span class="thumb-lg w-auto-folded avatar m-t-sm">
-                  <img src="/img/a0.jpg" class="img-full" alt="...">
+                  <img src="/assets/img/a0.jpg" class="img-full" alt="...">
                 </span>
               </a>
               <a href="#" data-toggle="dropdown" class="dropdown-toggle hidden-folded">
@@ -661,7 +661,7 @@
 	  <div class="col w-md bg-light dk b-r bg-auto">
 	    <div class="wrapper b-b bg">
 	      <button class="btn btn-sm btn-default pull-right visible-sm visible-xs" ui-toggle="show" target="#email-menu"><i class="fa fa-bars"></i></button>
-	      <a class="btn btn-sm btn-danger w-xs font-bold" href="/logs">Logs</a>
+	      <a class="btn btn-sm btn-danger w-xs font-bold" href="../logs">Logs</a>
 	    </div>
 	    <div class="wrapper hidden-sm hidden-xs" id="email-menu">
 	        <% 
@@ -675,7 +675,7 @@
               <% } else { %>
                 <li>
               <% } %>
-                  <a href="/log/<%= logs["files"][key] %>">
+                  <a href="/dashboard/log/<%= logs["files"][key] %>">
                     <%= logs["files"][key] %>
                   </a>
                 </li>
@@ -803,7 +803,7 @@
           <!--
 	        <li class="list-group-item clearfix b-l-3x b-l-info">
 	          <a class="avatar thumb pull-left m-r" href="#/app/page/profile">
-	            <img ng-src="/img/a10.jpg" src="/img/a10.jpg">
+	            <img ng-src="/assets/img/a10.jpg" src="/assets/img/a10.jpg">
 	          </a>
 	          <div class="pull-right text-sm text-muted">
 	            <span class="hidden-xs ">5 months ago</span>
@@ -816,7 +816,7 @@
 	        </li>
 	        <li class="list-group-item clearfix b-l-3x b-l-primary">
 	          <a class="avatar thumb pull-left m-r" href="#/app/page/profile">
-	            <img ng-src="/img/a9.jpg" src="/img/a9.jpg">
+	            <img ng-src="/assets/img/a9.jpg" src="/assets/img/a9.jpg">
 	          </a>
 	          <div class="pull-right text-sm text-muted">
 	            <span class="hidden-xs ">5 months ago</span>
@@ -829,7 +829,7 @@
 	        </li>
 	        <li class="list-group-item clearfix b-l-3x b-l-info">
 	          <a class="avatar thumb pull-left m-r" href="#/app/page/profile">
-	            <img ng-src="/img/a1.jpg" src="/img/a1.jpg">
+	            <img ng-src="/assets/img/a1.jpg" src="/assets/img/a1.jpg">
 	          </a>
 	          <div class="pull-right text-sm text-muted">
 	            <span class="hidden-xs ">5 months ago</span>
@@ -842,7 +842,7 @@
 	        </li>
 	        <li class="list-group-item clearfix b-l-3x b-l-info">
 	          <a class="avatar thumb pull-left m-r" href="#/app/page/profile">
-	            <img ng-src="/img/a2.jpg" src="/img/a2.jpg">
+	            <img ng-src="/assets/img/a2.jpg" src="/assets/img/a2.jpg">
 	          </a>
 	          <div class="pull-right text-sm text-muted">
 	            <span class="hidden-xs ">5 months ago</span>
@@ -855,7 +855,7 @@
 	        </li>
 	        <li class="list-group-item clearfix b-l-3x b-l-warning">
 	          <a class="avatar thumb pull-left m-r" href="#/app/page/profile">
-	            <img ng-src="/img/a3.jpg" src="/img/a3.jpg">
+	            <img ng-src="/assets/img/a3.jpg" src="/assets/img/a3.jpg">
 	          </a>
 	          <div class="pull-right text-sm text-muted">
 	            <span class="hidden-xs ">5 months ago</span>
@@ -868,7 +868,7 @@
 	        </li>
 	        <li class="list-group-item clearfix b-l-3x">
 	          <a class="avatar thumb pull-left m-r" href="#/app/page/profile">
-	            <img ng-src="/img/a4.jpg" src="/img/a4.jpg">
+	            <img ng-src="/assets/img/a4.jpg" src="/assets/img/a4.jpg">
 	          </a>
 	          <div class="pull-right text-sm text-muted">
 	            <span class="hidden-xs ">5 months ago</span>
@@ -881,7 +881,7 @@
 	        </li>
 	        <li class="list-group-item clearfix b-l-3x b-l-success">
 	          <a class="avatar thumb pull-left m-r" href="#/app/page/profile">
-	            <img ng-src="/img/a5.jpg" src="/img/a5.jpg">
+	            <img ng-src="/assets/img/a5.jpg" src="/assets/img/a5.jpg">
 	          </a>
 	          <div class="pull-right text-sm text-muted">
 	            <span class="hidden-xs ">5 months ago</span>
@@ -894,7 +894,7 @@
 	        </li>
 	        <li class="list-group-item clearfix b-l-3x">
 	          <a class="avatar thumb pull-left m-r" href="#/app/page/profile">
-	            <img ng-src="/img/a6.jpg" src="/img/a6.jpg">
+	            <img ng-src="/assets/img/a6.jpg" src="/assets/img/a6.jpg">
 	          </a>
 	          <div class="pull-right text-sm text-muted">
 	            <span class="hidden-xs ">5 months ago</span>
@@ -907,7 +907,7 @@
 	        </li>
 	        <li class="list-group-item clearfix b-l-3x">
 	          <a class="avatar thumb pull-left m-r" href="#/app/page/profile">
-	            <img ng-src="/img/a7.jpg" src="/img/a7.jpg">
+	            <img ng-src="/assets/img/a7.jpg" src="/assets/img/a7.jpg">
 	          </a>
 	          <div class="pull-right text-sm text-muted">
 	            <span class="hidden-xs ">5 months ago</span>
@@ -920,7 +920,7 @@
 	        </li>
 	        <li class="list-group-item clearfix b-l-3x b-l-success">
 	          <a class="avatar thumb pull-left m-r" href="#/app/page/profile">
-	            <img ng-src="/img/a8.jpg" src="/img/a8.jpg">
+	            <img ng-src="/assets/img/a8.jpg" src="/assets/img/a8.jpg">
 	          </a>
 	          <div class="pull-right text-sm text-muted">
 	            <span class="hidden-xs ">6 months ago</span>
@@ -957,14 +957,14 @@
 
 </div>
 
-<script src="/libs/jquery/jquery/dist/jquery.js"></script>
-<script src="/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
-<script src="/js/ui-load.js"></script>
-<script src="/js/ui-jp.config.js"></script>
-<script src="/js/ui-jp.js"></script>
-<script src="/js/ui-nav.js"></script>
-<script src="/js/ui-toggle.js"></script>
-<script src="/js/ui-client.js"></script>
+<script src="/assets/libs/jquery/jquery/dist/jquery.js"></script>
+<script src="/assets/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+<script src="/assets/js/ui-load.js"></script>
+<script src="/assets/js/ui-jp.config.js"></script>
+<script src="/assets/js/ui-jp.js"></script>
+<script src="/assets/js/ui-nav.js"></script>
+<script src="/assets/js/ui-toggle.js"></script>
+<script src="/assets/js/ui-client.js"></script>
 
 <script type="text/javascript">
 //your object
