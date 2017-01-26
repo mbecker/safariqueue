@@ -102,7 +102,7 @@ function *log(fileDate) {
       throw err;
     }
   }
-
+  
   logfiles.forEach(function(element, index, array){
     if(path.extname(element) == ".log") {
       logFilesJsonArray.push(element.slice(0, element.length - 4))  
@@ -134,10 +134,10 @@ function *log(fileDate) {
    * JSON Data
    */
   logs["current"] = fileDate
-  if(logFilesJsonArray.length > 1){
-    logs["files"]   = logFilesJsonArray.reverse()  
+  if(logFilesJsonArray.length > 0){
+    logs["files"]   = logFilesJsonArray.reverse()
   }  
-  if(logLinesJsonArray.length > 1){
+  if(logLinesJsonArray.length > 0){
     logs["data"]    = logLinesJsonArray;  
   }
   
