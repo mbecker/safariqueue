@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+  <%- include('../partials/head', { title: 'Markdowon for Park Kruger' }); -%>
+</head>
+<body>
+<div class="app app-header-fixed container" id="editor">
+  
+
+  <!-- header -->
+  <%- include('../partials/header'); -%>
+  <!-- / header -->
+
+
+  <!-- aside -->
+  <%- include('../partials/aside'); -%>
+  <!-- / aside -->
+
+	
+  <!-- content -->
+  
+  <div id="content" class="app-content" role="main">
+  	<div class="app-content-body ">
+	    
+
+<div class="hbox hbox-auto-xs hbox-auto-sm">
+  <div class="col">
+    
+    <div class="wrapper bg-white b-b">
+      
+      <% 
+      if(typeof parks != "undefined" && parks.length > 0) {
+      %>
+      <ul class="nav nav-pills nav-sm">
+        <% Object.keys(parks).forEach(function(key, keyIndex) { %>
+        	<li class="
+        		<% if(typeof active != "undefined" && parks[key] == active) { %>
+                active
+              <% } %>
+        		"><a href="/dashboard/markdown/<%=  parks[key] %>"><%= parks[key] %></a></li>
+        <% }) %>
+      </ul>
+      <% 
+      }
+      %>
+      
+      
+    </div>
+    <% if(typeof active != "undefined") { %>
+    	<div class="wrapper-md" ng-controller="FormDemoCtrl">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="row">
+          <div class="panel panel-default">
+          <div class="panel-heading font-bold">Markdown Editor</div>
+          <div class="panel-body">
+            <form role="form">
+              
+              <div class="form-group">
+                <textarea :value="input" @input="update" class="form-control" style="height: 300px;"></textarea>
+              </div>
+              
+              
+              <button type="submit" class="btn btn-sm btn-primary" v-on:click="send">Send to firebase</button>
+              <code>{{response}}</code>
+            </form>
+          </div>
+        </div>  
+      </div>
+      
+      <div class="row">
+          <div class="panel panel-default">
+            <div class="panel-heading font-bold">Markdown Editor</div>
+            <div class="panel-body">
+              <code>{{message}}</code>
+            </div>
+        </div>  
+      </div>
+      
+    </div>
+    <div class="col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading font-bold">Markdown Preview</div>
+        <div class="panel-body">
+          <div v-html="compiledMarkdown"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+  	<% } %>
+  </div>
+  
+</div>
+
+
+	</div>
+  </div>
+  
+  <!-- /content -->
+  
+  <!-- footer -->
+  <%- include('../partials/footer'); -%>
+  <!-- / footer -->
+
+
+
+</div>
+
+<%- include('../partials/javascripts'); -%>
+
+<% if(typeof active != "undefined") { %>
+<script src="https://unpkg.com/marked@0.3.6"></script>
+<script src="https://unpkg.com/lodash@4.16.0"></script>
+<script src="https://unpkg.com/vue@2.1.10/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-resource@1.1.1/dist/vue-resource.min.js"></script>
+<script type="text/javascript">
+//your object
+var myVar = <%- JSON.stringify(markdown) %>;
+var activePark = <%- JSON.stringify(active) %>;
+console.log(myVar.replace(/(\n\n)/gm,"\n"));
+  new Vue({
+  el: '#editor',
+  data: {
+    input: myVar.replace(/(\n\n)/gm,"\n"),
+    message: myVar,
+    data: '',
+    response: '',
+    activePark: activePark
+  },
+  computed: {
+    compiledMarkdown: function () {
+      return marked(this.input, { sanitize: true })
+    }
+  },
+  methods: {
+    update: _.debounce(function (e) {
+      this.input = e.target.value
+      this.message = e.target.value.replace(/(\r\n|\n|\r)/gm,"\n\n");
+    }, 300),
+    send: function (e) {
+      e.preventDefault();
+      var msg = { msg: this.input.replace(/(\r\n|\n|\r)/gm,"\n\n") }
+      
+      this.$http.post('/dashboard/markdown/' + this.activePark, msg).then(response => {
+        // success callback
+        console.log("response:");
+        console.log(response.body);
+        this.response = response.body
+      }, response => {
+        // error callback
+        console.log(response);
+      });
+
+      
+    }
+  }
+})
+</script>
+<% } %>
+
+</body>
+</html>
