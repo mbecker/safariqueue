@@ -2,6 +2,7 @@
 <html lang="en" class="">
 <head>
   <%- include('../partials/head', { title: 'Markdowon for Park Kruger' }); -%>
+  <link rel="stylesheet" href="/assets/css/markdown.css" type="text/css">
 </head>
 <body>
 <div class="app app-header-fixed container" id="editor">
@@ -48,7 +49,7 @@
     </div>
     <% if(typeof active != "undefined") { %>
     	<div class="wrapper-md" ng-controller="FormDemoCtrl">
-  <div class="row">
+  <div class="row" id="editor">
     <div class="col-sm-6">
       <div class="row">
           <div class="panel panel-default">
@@ -57,7 +58,7 @@
             <form role="form">
               
               <div class="form-group">
-                <textarea :value="input" @input="update" class="form-control" style="height: 300px;"></textarea>
+                <textarea :value="input" @input="update" class="form-control" v-bind:style="{ height: markdownpreviewHeight + 'px' }" id="markdowneditor"></textarea>
               </div>
               
               
@@ -68,6 +69,7 @@
         </div>  
       </div>
       
+      <!--
       <div class="row">
           <div class="panel panel-default">
             <div class="panel-heading font-bold">Markdown Editor</div>
@@ -76,13 +78,14 @@
             </div>
         </div>  
       </div>
+      -->
       
     </div>
     <div class="col-sm-6">
       <div class="panel panel-default">
         <div class="panel-heading font-bold">Markdown Preview</div>
         <div class="panel-body">
-          <div v-html="compiledMarkdown"></div>
+          <div v-html="compiledMarkdown" id="markdownpreview"></div>
         </div>
       </div>
     </div>
@@ -119,7 +122,7 @@
 //your object
 var myVar = <%- JSON.stringify(markdown) %>;
 var activePark = <%- JSON.stringify(active) %>;
-console.log(myVar.replace(/(\n\n)/gm,"\n"));
+
   new Vue({
   el: '#editor',
   data: {
@@ -127,10 +130,19 @@ console.log(myVar.replace(/(\n\n)/gm,"\n"));
     message: myVar,
     data: '',
     response: '',
-    activePark: activePark
+    activePark: activePark,
+    markdownpreviewHeight: 0,
+    markdowneditorHeight: 0,
   },
+  mounted: function () {
+        this.$nextTick(function () {
+            console.log(this.$el.offsetHeight);
+            this.markdownpreviewHeight = document.getElementById("markdownpreview").offsetHeight
+        })
+    },
   computed: {
     compiledMarkdown: function () {
+      this.markdownpreviewHeight = document.getElementById("markdownpreview").offsetHeight
       return marked(this.input, { sanitize: true })
     }
   },
@@ -142,7 +154,7 @@ console.log(myVar.replace(/(\n\n)/gm,"\n"));
     send: function (e) {
       e.preventDefault();
       var msg = { msg: this.input.replace(/(\r\n|\n|\r)/gm,"\n\n") }
-      
+      this.response = "...sending message";
       this.$http.post('/dashboard/markdown/' + this.activePark, msg).then(response => {
         // success callback
         console.log("response:");
@@ -151,6 +163,7 @@ console.log(myVar.replace(/(\n\n)/gm,"\n"));
       }, response => {
         // error callback
         console.log(response);
+        this.response = response.body
       });
 
       
