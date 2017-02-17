@@ -5,8 +5,8 @@ const ref = db.ref("parkinfo");
 exports.getMarkdown = function (park){
  
   return new Promise(function(resolve, reject) {
-    
-     ref.child(park).on("value", function(snapshot) {
+    const refereneMarkdown = db.ref("markdown");
+     refereneMarkdown.child(park).on("value", function(snapshot) {
         resolve(snapshot.val().markdown);
       }, function (errorObject) {
         return reject(errorObject);
